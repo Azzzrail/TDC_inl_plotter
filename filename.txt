@@ -1,0 +1,17 @@
+C:\Users\Burtsev\PycharmProjects\plot\TDC72VXS-0A7B-3849.ini
+C:\Users\Burtsev\PycharmProjects\plot\131k_Switch_INL\TDC72VXS\0A7A-FB11\TDC72VXS-0A7A-FB11.ini
+C:\Users\Burtsev\PycharmProjects\plot\131k_Switch_INL\TDC72VXS\0A7B-3849\TDC72VXS-0A7B-3849.ini
+C:\Users\Burtsev\PycharmProjects\plot\131k_Switch_INL\TDC72VXS\0A7B-5506\TDC72VXS-0A7B-5506.ini
+C:\Users\Burtsev\PycharmProjects\plot\Generator_INL\TDC72VXS\0A7A-FB11\TDC72VXS-0A7A-FB11.ini
+C:\Users\Burtsev\PycharmProjects\plot\Generator_INL\TDC72VXS\0A7B-5506\TDC72VXS-0A7B-5506.ini
+C:\Users\Burtsev\PycharmProjects\plot\NO_BUFR_Switch_Every_event\TDC72VXS\0A7A-FB11\TDC72VXS-0A7A-FB11.ini
+C:\Users\Burtsev\PycharmProjects\plot\NO_BUFR_Switch_Every_event\TDC72VXS\0A7B-3849\TDC72VXS-0A7B-3849.ini
+C:\Users\Burtsev\PycharmProjects\plot\NO_BUFR_Switch_Every_event\TDC72VXS\0A7B-5506\TDC72VXS-0A7B-5506.ini
+C:\Users\Burtsev\PycharmProjects\plot\TDC72VXS_INL\07A9-FC21\TDC72VXS-07A9-FC21_GEN_49.ini
+C:\Users\Burtsev\PycharmProjects\plot\TDC72VXS_INL\07A9-FC21\TDC72VXS-07A9-FC21_HRB.ini
+C:\Users\Burtsev\PycharmProjects\plot\TDC72VXS_INL\0A7A-FB11\TDC72VXS-0A7A-FB11.ini
+C:\Users\Burtsev\PycharmProjects\plot\TDC72VXS_INL\0A7A-FB11\TDC72VXS-0A7A-FB11_ch25_49.ini
+C:\Users\Burtsev\PycharmProjects\plot\TDC72VXS_INL\0A7A-FB11\TDC72VXS-0A7A-FB11_GEN_49.ini
+C:\Users\Burtsev\PycharmProjects\plot\TDC72VXS_INL\0A7A-FB11\TDC72VXS-0A7A-FB11_HRB.ini
+C:\Users\Burtsev\PycharmProjects\plot\TDC72VXS_INL\0A7B-3849\TDC72VXS-0A7B-3849.ini
+C:\Users\Burtsev\PycharmProjects\plot\TDC72VXS_INL\0A7B-5506\TDC72VXS-0A7B-5506.ini
