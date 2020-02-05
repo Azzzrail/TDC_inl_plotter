@@ -39,6 +39,7 @@ df = {}
 pure_data = {}
 df_w_names = {}
 new_cols = {}
+
 path = os.getcwd()
 for filename in glob.iglob(path + '/**/TDC72VXS*.*', recursive=True):
     i += 1
@@ -74,8 +75,11 @@ while j < len(filenames):
         df[j].columns = new_cols
 
         df[j] = df[j][df[j].Chan != 'stat']
-
-
+        #df['Chan'] = df['Chan'].astype(int)
+        df[j] = df[j].set_index('Chan')
+        #df[j].astype('float').dtypes
+        df[j].index.astype(int)
+        #df[j].index.names = [None]
     j += 1
 
 #print(df[Channel])
@@ -107,11 +111,14 @@ p = figure(
           )
 
 colors = itertools.cycle(palette)
-print(df[0].loc[[Channel]])
+print((df[Max_line].loc[str(Channel)]))
+
+print(df[0][0])
+print(df[0])
 
 for Max_line, color in zip(range(0, len(names)), colors):
     # print(p)
-    p.line(x=range(1023), y=[float(i) for i in df[Max_line].loc[[Channel]]], legend=names[1], color=color)
+    p.line(x=range(1024), y=[float(i) for i in df[Max_line].loc[str(Channel)]], legend_label=names[Max_line], color=color)
 
 #show(p)
 
