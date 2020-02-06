@@ -71,14 +71,21 @@ while j < len(filenames):
         # to get to original list length
         rng = range(0, num_cols-1)
 
-        new_cols = list(['Chan'] + [i for i in rng])
+        new_cols = list(['Ch'] + [i for i in rng])
         df[j].columns = new_cols
+        for i in df[j]['Ch']:
+            if i.isnumeric():
+                break
+            else:
 
-        df[j] = df[j][df[j].Chan != 'stat']
+
+        df[j]['Ch'] = pd.to_numeric(df[j]['Ch'])
+        df[j]['Ch'] = df[j]['Ch'].str.extract(r'(\t{4})', expand=False)
+        #df[j] = df[j][df[j].Chan != 'stat']
         #df['Chan'] = df['Chan'].astype(int)
-        df[j] = df[j].set_index('Chan')
+        #df[j] = df[j].set_index('00')
         #df[j].astype('float').dtypes
-        df[j].index.astype(int)
+        #df[j].index.astype(int)
         #df[j].index.names = [None]
     j += 1
 
@@ -111,14 +118,14 @@ p = figure(
           )
 
 colors = itertools.cycle(palette)
-print((df[Max_line].loc[str(Channel)]))
+#print((df[Max_line].loc[str(Channel)]))
 
-print(df[0][0])
-print(df[0])
+print((df[0]))
 
-for Max_line, color in zip(range(0, len(names)), colors):
+
+#for Max_line, color in zip(range(0, len(names)), colors):
     # print(p)
-    p.line(x=range(1024), y=[float(i) for i in df[Max_line].loc[str(Channel)]], legend_label=names[Max_line], color=color)
+#    p.line(x=range(1024), y=[float(i) for i in df[Max_line].loc[str(Channel)]], legend_label=names[Max_line], color=color)
 
 #show(p)
 
