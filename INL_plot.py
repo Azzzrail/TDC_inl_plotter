@@ -14,7 +14,8 @@ from bokeh.palettes import Dark2_5 as palette # Палитра цветов дл
 import pandas as pd
 import os
 import sys
-
+import warnings
+warnings.filterwarnings("ignore", 'This pattern has match groups')
 
 def make_paus(mode, message=""):
     if mode == 0:
@@ -34,6 +35,7 @@ i = 0
 Data_arr: List[List[str]] = []
 Channels: List[int] = []
 line: str
+plot_line: List[float] = []
 filenames: List[str] = []
 df = {}
 pure_data = {}
@@ -50,7 +52,7 @@ j = 0
 i: int = 0
 line_names = []
 files = []
-print(filenames, "\n")
+#print(filenames, "\n")
 with open('filename.txt', "w") as g:
     for item in filenames:
         g.write("%s\n" % item)
@@ -73,24 +75,29 @@ while j < len(filenames):
 
         new_cols = list(['Ch'] + [i for i in rng])
         df[j].columns = new_cols
-        for i in df[j]['Ch']:
-            if i.isnumeric():
-                break
-            else:
+
+        #df[j]=df[j][df[j].Ch.str.contains(r'(\d{2}|\d{1})', case=False)]
 
 
+        #df_2 = df.iloc[(df.loc[df[0] == 'report field'].index[0] + 1):, :].reset_index(drop=True)
+        #try:
+        #except ValueError:
+        #    None
+
+        #df[j]['Ch'] = df[j]['Ch'].str.extract(r'(\t{4})', expand=False)
+        df[j] = df[j][df[j].Ch != 'stat']
         df[j]['Ch'] = pd.to_numeric(df[j]['Ch'])
-        df[j]['Ch'] = df[j]['Ch'].str.extract(r'(\t{4})', expand=False)
-        #df[j] = df[j][df[j].Chan != 'stat']
+        df[j] = df[j].set_index('Ch')
+        df[j].index.names = [None]
+        df[j].index.astype(int)
+        df[j] = df[j].astype(float)
         #df['Chan'] = df['Chan'].astype(int)
         #df[j] = df[j].set_index('00')
         #df[j].astype('float').dtypes
         #df[j].index.astype(int)
-        #df[j].index.names = [None]
     j += 1
 
-#print(df[Channel])
-print(filenames[1])
+#print(filenames[1])
 #df[Channel].loc[[0]].plot(legend=True) #plot usa column
 
 t = 0
@@ -100,12 +107,12 @@ while t < len(filenames):
     names.insert(t, name)
     t += 1
 
-print("amount of names", names)
+#print("amount of names", names)
 
 x: List[int] = []
 i = 0
 j: int = 0
-Max_line = 0
+Max_line = int(0)
 
 output_file("log_lines.html")
 # набор инструментов для работы с нарисованным графиком
@@ -118,16 +125,19 @@ p = figure(
           )
 
 colors = itertools.cycle(palette)
-#print((df[Max_line].loc[str(Channel)]))
+print(df[Max_line].loc[int(Channel)])
 
-print((df[0]))
+#print((df[0]))
+#print(plot_line)
 
+for Max_line, color in zip(range(0, len(names)), colors):
 
-#for Max_line, color in zip(range(0, len(names)), colors):
-    # print(p)
-#    p.line(x=range(1024), y=[float(i) for i in df[Max_line].loc[str(Channel)]], legend_label=names[Max_line], color=color)
+    iter = Max_line
+    plot_line = df[iter].loc[(Channel)]
+    print(type(iter), color, Channel)
+    p.line(x=range(1024), y=[i for i in plot_line], legend_label=names[Max_line], color=color)
 
-#show(p)
+show(p)
 
 
 
