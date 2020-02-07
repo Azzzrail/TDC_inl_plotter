@@ -14,8 +14,8 @@ from bokeh.palettes import Dark2_5 as palette # Палитра цветов дл
 import pandas as pd
 import os
 import sys
-import warnings
-warnings.filterwarnings("ignore", 'This pattern has match groups')
+#import warnings
+#warnings.filterwarnings("ignore", 'This pattern has match groups')
 
 def make_paus(mode, message=""):
     if mode == 0:
@@ -32,69 +32,45 @@ Channel = int(make_paus(0, "enter channel number"))
 print(Channel)
 
 i = 0
-Data_arr: List[List[str]] = []
-Channels: List[int] = []
 line: str
-plot_line: List[float] = []
 filenames: List[str] = []
 df = {}
-pure_data = {}
-df_w_names = {}
 new_cols = {}
-
 path = os.getcwd()
 for filename in glob.iglob(path + '/**/TDC72VXS*.*', recursive=True):
     i += 1
     #if filename not in filenames:
     filenames.insert(i, filename)
 
-j = 0
+j: int = 0
 i: int = 0
-line_names = []
-files = []
-#print(filenames, "\n")
+
 with open('filename.txt', "w") as g:
     for item in filenames:
         g.write("%s\n" % item)
 
 while j < len(filenames):
 
-    with open(filenames[j], "r") as f:
+    df[j] = pd.read_csv(filenames[j], skipinitialspace=True, skiprows=1,  header=None, sep='[_]|[=]|[,]|\s+]', engine='python')
+    # get length of df's columns
+    num_cols = len(list(df[j]))
 
-        data = f.readlines()
+    # generate range of ints for suffixes
+    # with length exactly half that of num_cols;
+    # if num_cols is even, truncate concatenated list later
+    # to get to original list length
+    new_cols = list(['Ch'] + [i for i in range(0, num_cols-1)])
+    df[j].columns = new_cols
 
-        df[j] = pd.read_csv(filenames[j], skipinitialspace=True, skiprows=1,  header=None, sep='[_]|[=]|[,]|\s+]', engine='python')
-        # get length of df's columns
-        num_cols = 1025 #len(list(df[j]))
+    df[j] = df[j][df[j].Ch != 'stat']
 
-        # generate range of ints for suffixes
-        # with length exactly half that of num_cols;
-        # if num_cols is even, truncate concatenated list later
-        # to get to original list length
-        rng = range(0, num_cols-1)
+    df[j]['Ch'] = pd.to_numeric(df[j]['Ch'])
+    df[j] = df[j].set_index('Ch')
+    df[j].index.names = [None]
 
-        new_cols = list(['Ch'] + [i for i in rng])
-        df[j].columns = new_cols
+#        df[j].index.astype(int)
+#        df[j] = df[j].astype(float)
 
-        #df[j]=df[j][df[j].Ch.str.contains(r'(\d{2}|\d{1})', case=False)]
-
-
-        #df_2 = df.iloc[(df.loc[df[0] == 'report field'].index[0] + 1):, :].reset_index(drop=True)
-        #try:
-        #except ValueError:
-        #    None
-
-        #df[j]['Ch'] = df[j]['Ch'].str.extract(r'(\t{4})', expand=False)
-        df[j] = df[j][df[j].Ch != 'stat']
-        df[j]['Ch'] = pd.to_numeric(df[j]['Ch'])
-        df[j] = df[j].set_index('Ch')
-        df[j].index.names = [None]
-        df[j].index.astype(int)
-        df[j] = df[j].astype(float)
-        #df['Chan'] = df['Chan'].astype(int)
-        #df[j] = df[j].set_index('00')
-        #df[j].astype('float').dtypes
-        #df[j].index.astype(int)
     j += 1
 
 #print(filenames[1])
@@ -109,7 +85,7 @@ while t < len(filenames):
 
 #print("amount of names", names)
 
-x: List[int] = []
+#x: List[int] = []
 i = 0
 j: int = 0
 Max_line = int(0)
@@ -125,17 +101,14 @@ p = figure(
           )
 
 colors = itertools.cycle(palette)
-print(df[Max_line].loc[int(Channel)])
-
-#print((df[0]))
-#print(plot_line)
 
 for Max_line, color in zip(range(0, len(names)), colors):
 
-    iter = Max_line
-    plot_line = df[iter].loc[(Channel)]
-    print(type(iter), color, Channel)
-    p.line(x=range(1024), y=[i for i in plot_line], legend_label=names[Max_line], color=color)
+    try:
+        p.line(x=range(1024), y=[i for i in df[Max_line].loc[(Channel)]],
+               legend_label=names[Max_line], color=color)
+    except KeyError:
+        continue
 
 show(p)
 
