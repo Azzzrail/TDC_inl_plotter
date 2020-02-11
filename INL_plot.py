@@ -72,7 +72,8 @@ TOOLS = "pan,wheel_zoom,box_zoom,reset,save,box_select,lasso_select"
 p = figure(
     tools=TOOLS, width=1500, height=1000,
     y_axis_type="linear", title="TDC72_INL",
-    x_axis_label='buf_place', y_axis_label='counts'
+    x_axis_label='buf_place', y_axis_label='counts'  # TODO: Исправить неполное отображение имён в легенде
+
 )
 
 i = 0
