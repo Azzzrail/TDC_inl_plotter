@@ -4,14 +4,32 @@ import glob
 import os
 import sys
 import numpy as np
+import pandas as pd
+import PySimpleGUI as sg
 
 from bokeh.plotting import figure, output_file, show
-import itertools  # Для перебора цветов в графиках
 from bokeh.palettes import Dark2_5 as Palette  # Палитра цветов для линий
+import itertools  # Для перебора цветов в графиках
 
-import pandas as pd
-import os
-import sys
+
+
+sg.theme('DarkAmber')   # Add a touch of color
+# All the stuff inside your window.
+layout = [  [sg.Text('Some text on Row 1')],
+            [sg.Text('Enter channel number'), sg.InputText()],
+            [sg.Button('Ok'), sg.Button('Cancel')] ]
+
+# Create the Window
+window = sg.Window('Window Title', layout)
+# Event Loop to process "events" and get the "values" of the inputs
+while True:
+    event, values = window.read()
+    if event in (None, 'Cancel', 'Ok'):   # if user closes window or clicks cancel
+        Channel = int(values[0])
+        break
+
+window.close()
+#$print('You entered ', values[0])
 
 
 def make_paus(mode, message=""):
@@ -24,7 +42,7 @@ def make_paus(mode, message=""):
         return answer
 
 
-Channel = int(make_paus(0, "enter channel number"))
+#Channel = int(make_paus(0, "enter channel number"))
 
 i: int = 0
 line: str
@@ -67,7 +85,7 @@ while i < len(filenames):
 
 output_file("log_lines.html")  # Создаём выходной файл с плотом
 # набор инструментов для работы с нарисованным графиком
-TOOLS = "pan,wheel_zoom,box_zoom,reset,save,box_select,lasso_select"
+TOOLS = "pan,wheel_zoom,box_zoom,reset,save,box_select,lasso_select,crosshair,hover"
 # create a new plot
 p = figure(
     tools=TOOLS, width=1500, height=1000,
@@ -86,6 +104,7 @@ for Max_line, color in zip(range(0, len(names)), colors):
     try:  # Пытаемся нарисовать выбранный канал, итерируя датафреймы(файлы)
         output_file = p.line(x=range(1024), y=[i for i in df[Max_line].loc[Channel]],
                              legend_label=names[Max_line], color=color)
+        print(names[Max_line])
     except KeyError:  # В случае появления номера канала, который отсутствует в таблице, обрабатываем возможную ошибку
         continue  # Делаем нихера, просто пропуская эту итерацию и ждём следующей.
         #  В случае, если нет ни одного канала в данных, получаем пустой плот
