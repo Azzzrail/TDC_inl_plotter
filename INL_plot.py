@@ -43,11 +43,11 @@ while j < len(filenames):
     df[j] = df[j].set_index(0)  # Запихиваем нулевой столбец(номера каналов в файле) в индексы
     df[j].index = pd.to_numeric(df[j].index)  # Превращаем индексы из объектов в числа, чтобы можно было их итерировать
     df[j].index.names = [None]  # удаляем имя для индексов(там был 0 - номер столбца)
+
+    name = os.path.basename(filenames[j])  # Вычленяем имя файла из полного пути к нему
+    names.insert(j, name)  # Записываем в список, потом будем имена использовать в качестве легенды к линиям в плоте
+
     j += 1
-
-    name = os.path.basename(filenames[i])  # Вычленяем имя файла из полного пути к нему
-    names.insert(i, name)  # Записываем в список, потом будем имена использовать в качестве легенды к линиям в плоте
-
 output_file("log_lines.html")  # Создаём выходной файл с плотом
 # набор инструментов для работы с нарисованным графиком
 TOOLS = "pan,wheel_zoom,box_zoom,reset,save,box_select,lasso_select,crosshair,hover"
